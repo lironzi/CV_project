@@ -17,7 +17,7 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
-def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,conf_thres=0.25,iou_thres=0.45,myAnnFileName):
+def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,conf_thres=0.25,iou_thres=0.45,myAnnFileName='estimated_ann'):
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(('rtsp://', 'rtmp://', 'http://'))
     
     #default_parameters:
