@@ -49,12 +49,15 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
     names = model.module.names if hasattr(model, 'module') else model.names
     
     
-    #
     
+    #annotation_file
     script_dir = os.path.dirname(__file__)
     rel_path = myAnnFileName
     abs_file_path = os.path.join(script_dir, rel_path)
     file_annot=open(abs_file_path,'w')
+    
+    #changing labels from net to proper form
+    cls_dict={0:1,1:4,2:1,3:2,4:6,5:3}
     #
     
     # Run inference
@@ -112,7 +115,7 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
                     
                     xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                     xyxy_2print.append([int(elem.item()) for elem in xyxy])
-                    xyxy_2print[-1].append(int(cls.item()))
+                    xyxy_2print[-1].append(cls_dict[int(cls.item())])
 
             # Print time (inference + NMS)
             print('%sDone. (%.3fs)' % (s, t2 - t1))
