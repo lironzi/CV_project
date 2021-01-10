@@ -86,7 +86,7 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
         #
         p, s, im0 = Path(path), '', im0s
         file_annot.write(p.stem.split('_')[0]+'.JPG:')
-        xyxy_2print=[]
+        xywh_2print=[]
         #
         
         # Process detections
@@ -114,8 +114,12 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
                 for *xyxy, conf, cls in reversed(det):
                     
                     xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                    xyxy_2print.append([int(elem.item()) for elem in xyxy])
-                    xyxy_2print[-1].append(cls_dict[int(cls.item())])
+                    xyxy_0=[int(elem.item()) for elem in xyxy]
+                    xywh_0=[xyxy_0[0],xyxy_0[1],int((xyxy[2]-xyxy[0])/2),int((xyxy[3]-xyxy[1])/2)]
+                    xywh_0.append(cls_dict[int(cls.item())])
+                    xywh_2print.append(xywh_0)
+                    #xywh_2print.append([int(elem.item()) for elem in xyxy])
+                    #xyxy_2print[-1].append(cls_dict[int(cls.item())])
 
             # Print time (inference + NMS)
             print('%sDone. (%.3fs)' % (s, t2 - t1))
@@ -142,9 +146,9 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
                         h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*fourcc), fps, (w, h))
                     vid_writer.write(im0)
-        xyxy_2print=str(xyxy_2print)
-        xyxy_2print=xyxy_2print[1:-1]
-        file_annot.write(xyxy_2print)
+        xywh_2print=str(xywh_2print)
+        xywh_2print=xywh_2print[1:-1]
+        file_annot.write(xywh_2print)
         file_annot.write('\n')
 
     file_annot.close()
