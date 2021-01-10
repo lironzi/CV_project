@@ -85,6 +85,7 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
         
         #
         p, s, im0 = Path(path), '', im0s
+        
         file_annot.write(p.stem.split('_')[0]+'.JPG:')
         xywh_2print=[]
         #
@@ -115,7 +116,7 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
                     
                     xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                     xyxy_0=[int(elem.item()) for elem in xyxy]
-                    xywh_0=[xyxy_0[0],xyxy_0[1],int((xyxy[2]-xyxy[0])/2),int((xyxy[3]-xyxy[1])/2)]
+                    xywh_0=[xyxy_0[0],xyxy_0[1],int(xyxy[2]-xyxy[0]),int(xyxy[3]-xyxy[1])]
                     xywh_0.append(cls_dict[int(cls.item())])
                     xywh_2print.append(xywh_0)
                     #xywh_2print.append([int(elem.item()) for elem in xyxy])
