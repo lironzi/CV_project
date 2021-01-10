@@ -57,7 +57,7 @@ def detect(save_img=False,weights='yolov5s.pt', source='data/images',imgsz=512,c
     file_annot=open(abs_file_path,'w')
     
     #changing labels from net to proper form
-    cls_dict={0:1,1:4,2:1,3:2,4:6,5:3}
+    cls_dict={0:5,1:4,2:1,3:2,4:6,5:3}
     #
     
     # Run inference
