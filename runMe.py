@@ -10,7 +10,7 @@ def run(myAnnFileName, buses):
     script_dir = os.path.dirname(__file__)
     rel_path = 'best_yolo5_2.pt'
     weights_path = os.path.join(script_dir, rel_path)
-    #if weights file in drive
+    
     
     rel_path=buses
     detect_path=os.path.join(script_dir, rel_path)
